@@ -9,11 +9,14 @@ services:
     volumes:
       - ./src/:/code
     tty: true
+    env_file:
+      - .env  # プロジェクトルートにある.envファイルを指定
 
   db:
     build:
       context: ./docker/db
       dockerfile: Dockerfile
+    user: "1000:1000" # 非rootユーザーとして実行
     ports:
       - 3306:3306
     environment:
@@ -24,6 +27,8 @@ services:
       TZ: "Asia/Tokyo"
     volumes:
       - djangoLearn_mysql:/var/lib/mysql
+    env_file:
+      - .env  # プロジェクトルートにある.envファイルを指定
 
 volumes:
   djangoLearn_mysql:
